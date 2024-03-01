@@ -19,7 +19,7 @@ end
 
 group :test do
   gem "rspec", "~> 3.0"
-  gem "webmock", "~> 3.22.0"
+  gem "webmock", "~> 3.23.0"
   gem "simplecov"
   gem "simplecov-cobertura"
 end
