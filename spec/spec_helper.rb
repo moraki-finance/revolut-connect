@@ -2,6 +2,9 @@
 
 require "bundler/setup"
 require "webmock/rspec"
+require "dotenv"
+Dotenv.load(".env.test")
+require "dotenv/autorestore"
 require "revolut"
 Bundler.require(:default, :development, :test)
 
@@ -24,5 +27,14 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.include AuthHelpers
+  config.include ResourceHelpers
+end
+
+RSpec::Matchers.define :eq_as_json do |expected_result|
+  match do |actual_result|
+    actual_result.to_json == expected_result.to_json
   end
 end

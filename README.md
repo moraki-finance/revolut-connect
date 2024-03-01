@@ -1,14 +1,14 @@
 # Revolut Connect
 
-<!-- <a href="https://codecov.io/github/moraki-finance/docuseal" >
- <img src="https://codecov.io/github/moraki-finance/docuseal/graph/badge.svg?token=SKTT14JJGV"/>
-</a> -->
+<a href="https://codecov.io/github/moraki-finance/revolut-connect" >
+ <img src="https://codecov.io/github/moraki-finance/revolut-connect/graph/badge.svg?token=SKTT14JJGV"/>
+</a>
 
-<!-- [![Tests](https://github.com/moraki-finance/docuseal/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/moraki-finance/docuseal/actions/workflows/main.yml) -->
+[![Tests](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml)
 
 A lightweight API connector for Revolut. Revolut docs: <https://developer.revolut.com/>
 
-_:warning: The extracted API objects don't do input parameters validations. It's a simple faraday wrapper that allows you to send as many inputs as you want. The docuseal API might fail when passing a wrong set of parameters._
+_:warning: The extracted API objects don't do input parameters validations. It's a simple faraday wrapper that allows you to send as many inputs as you want. The Revolut API might fail when passing a wrong set of parameters._
 
 _:warning: For now this connector only supports the [Business API](https://developer.revolut.com/docs/business/business-api). Pull requests are welcomed to support other APIs._
 
@@ -16,9 +16,11 @@ _:warning: For now this connector only supports the [Business API](https://devel
 
 ### Business API
 
-- `Accounts`
-- `Counterparties`
-- `Payments`
+- `Account`
+- `Counterparty`
+- `Payment`
+- `Transaction`
+- `TransferReason`
 
 ## :construction: Roadmap
 
@@ -151,7 +153,7 @@ end
 
 #### Accounts
 
-Resource: <https://developer.revolut.com/docs/business/accounts>
+<https://developer.revolut.com/docs/business/accounts>
 
 ```rb
 # List revolut accounts
@@ -166,13 +168,13 @@ bank_details = Revolut::Account.bank_details(accounts.last.id)
 
 #### Counterparties
 
-Resource: <https://developer.revolut.com/docs/business/counterparties>
+<https://developer.revolut.com/docs/business/counterparties>
 
 ```rb
-# List counter parties
+# List counterparties
 counterparties = Revolut::Counterparty.list
 
-# Create a counter party
+# Create a counterparty
 created_counterparty = Revolut::Counterparty.create(
   profile_type: "personal",
   name: "John Smith",
@@ -188,10 +190,10 @@ deleted = Revolut::Counterparty.delete(retrieved_counterparty.id)
 
 #### Payments
 
-Resource: <https://developer.revolut.com/docs/business/create-payment>
+<https://developer.revolut.com/docs/business/create-payment>
 
 ```rb
-# List counter parties
+# Create a payment transaction
 payment = Revolut::Payment.create(
   request_id: "49c6a48b-6b58-40a0-b974-0b8c4888c8a7", # Your app's own payment ID.
   account_id: "af98333c-ea53-482b-93c2-1fa5e4eae671",

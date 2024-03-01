@@ -13,16 +13,16 @@ module Revolut
     def post(path, data: {}, headers: {}, **query)
       full_uri = uri(path:, query:)
 
-      conn(content_type).post(full_uri) do |req|
+      conn.post(full_uri) do |req|
         req.body = data.to_json if data.any?
         req.headers = all_headers(headers)
       end
     end
 
-    def put(path, data: {}, headers: {}, **query)
+    def patch(path, data: {}, headers: {}, **query)
       full_uri = uri(path:, query:)
 
-      conn.put(full_uri) do |req|
+      conn.patch(full_uri) do |req|
         req.body = data.to_json if data.any?
         req.headers = all_headers(headers)
       end
@@ -39,7 +39,7 @@ module Revolut
     def get_access_token(authorization_code:)
       full_uri = uri(path: "auth/token")
 
-      conn(:url_encoded).post(full_uri) do |req|
+      conn(content_type: :url_encoded, authed: false).post(full_uri) do |req|
         req.headers = global_headers
         req.body = URI.encode_www_form({
           grant_type: "authorization_code",
@@ -53,7 +53,7 @@ module Revolut
     def refresh_access_token(refresh_token:)
       full_uri = uri(path: "auth/token")
 
-      conn(:url_encoded).post(full_uri) do |req|
+      conn(content_type: :url_encoded, authed: false).post(full_uri) do |req|
         req.headers = global_headers
         req.body = URI.encode_www_form({
           grant_type: "refresh_token",
@@ -66,7 +66,7 @@ module Revolut
 
     private
 
-    def conn(content_type = :json, auth: true)
+    def conn(content_type: :json, authed: true)
       Faraday.new do |f|
         f.options[:timeout] = request_timeout
 
@@ -75,12 +75,12 @@ module Revolut
         f.request :retry, { # Retries a request after refreshing the token if we get an UnauthorizedError
           max: 1,
           exceptions: [Faraday::UnauthorizedError],
-          retry_block: ->(env, _options, _retry_count, _exception) {
+          retry_block: ->(env:, options:, retry_count:, exception:, will_retry_in:) {
             Revolut::Auth.refresh(force: true)
             env.request_headers = env.request_headers.merge("Authorization" => "Bearer #{Revolut::Auth.access_token}")
           }
         }
-        f.request :authorization, "Bearer", -> { Revolut::Auth.access_token }
+        f.request :authorization, "Bearer", -> { Revolut::Auth.access_token } if authed
 
         # Response middlewares
         f.response :json

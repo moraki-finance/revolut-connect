@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "faraday"
+require "faraday/retry"
 
 require_relative "revolut/middlewares/catch_error"
 require_relative "revolut/version"
@@ -32,7 +33,7 @@ module Revolut
       @request_timeout = DEFAULT_REQUEST_TIMEOUT
       @global_headers = {}
       @client_id = ENV["REVOLUT_CLIENT_ID"]
-      @signing_key = ENV["REVOLUT_SIGNING_KEY"].gsub("\\n", "\n")
+      @signing_key = ENV["REVOLUT_SIGNING_KEY"]&.gsub("\\n", "\n")
       @iss = ENV.fetch("REVOLUT_ISS", "example.com")
       @authorize_redirect_uri = ENV["REVOLUT_AUTHORIZE_REDIRECT_URI"]
       @environment = ENV.fetch("REVOLUT_ENVIRONMENT", DEFAULT_ENVIRONMENT).to_sym

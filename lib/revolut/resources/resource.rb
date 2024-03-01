@@ -24,7 +24,7 @@ module Revolut
       def update(id, **attrs)
         check_not_allowed
 
-        response = http_client.put("/#{resource_name}/#{id}", data: attrs)
+        response = http_client.patch("/#{resource_name}/#{id}", data: attrs)
 
         new(response.body)
       end
@@ -49,7 +49,7 @@ module Revolut
         ->(attrs) { new(attrs) }
       end
 
-      def skip_coertion_for(attrs = [])
+      def skip_coertion_for(*attrs)
         @skip_coertion_for ||= attrs
       end
 
@@ -76,7 +76,8 @@ module Revolut
       end
 
       def shallow
-        only
+        # Adding :shallow will make all other resource methods fail.
+        only :shallow
       end
 
       def only(*attrs)
