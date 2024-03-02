@@ -126,6 +126,10 @@ module Revolut
         @refresh_token = nil
       end
 
+      def unused_method
+        @access_token = nil
+      end
+
       private
 
       def authorize_base_uri
