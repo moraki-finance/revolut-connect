@@ -1,5 +1,5 @@
 module ResourceHelpers
-  def stub_resource(method, resource, request: {}, response: {}, query: {})
+  def stub_resource(method, resource, status: 200, request: {}, response: {}, query: {})
     request_body = request.dig(:body) || {}
     request_headers = {"Authorization" => "Bearer #{Revolut::Auth.access_token}"}.merge(request.dig(:headers) || {})
     response_body = response.dig(:body) || {}
@@ -11,7 +11,7 @@ module ResourceHelpers
     )
       .with({body: hash_including(request_body)}.merge(request_headers ? {headers: request_headers} : {}))
       .to_return(
-        status: 200,
+        status:,
         body: response_body.to_json,
         headers: response_headers
       )

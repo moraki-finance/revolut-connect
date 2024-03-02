@@ -227,4 +227,16 @@ RSpec.describe Revolut::Resource do
       expect(result.array_of_objects.first).to have_attributes(id: 3, name: "Test")
     end
   end
+
+  describe "#resources_name" do
+    before do
+      stub_const("Revolut::Resource::NoResources", Class.new(Revolut::Resource))
+    end
+
+    it "raises an exception" do
+      expect {
+        Revolut::Resource::NoResources.send(:resources_name)
+      }.to raise_error(Revolut::NotImplementedError, "Implement #resources_name in subclass")
+    end
+  end
 end

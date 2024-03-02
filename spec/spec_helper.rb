@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+if ENV["COVERAGE_DIR"]
+  require "simplecov"
+  SimpleCov.coverage_dir(ENV["COVERAGE_DIR"])
+  if ENV["CI"]
+    require "simplecov-cobertura"
+    SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+  end
+  SimpleCov.start
+end
+
 require "bundler/setup"
 require "webmock/rspec"
 require "dotenv"
@@ -7,14 +17,6 @@ Dotenv.load(".env.test")
 require "dotenv/autorestore"
 require "revolut"
 Bundler.require(:default, :development, :test)
-
-if ENV["COVERAGE_DIR"]
-  require "simplecov"
-  require "simplecov-cobertura"
-  SimpleCov.coverage_dir(File.join(ENV["COVERAGE_DIR"]))
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
-  SimpleCov.start
-end
 
 Dir[File.expand_path("spec/support/**/*.rb")].sort.each { |f| require f }
 
@@ -27,6 +29,14 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:each) do
+    Timecop.freeze(Time.now)
+  end
+
+  config.after(:each) do
+    Timecop.return
   end
 
   config.include AuthHelpers

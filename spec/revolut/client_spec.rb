@@ -70,10 +70,17 @@ RSpec.describe Revolut::Client do
         Faraday::Retry::Middleware,
         Faraday::Request::Authorization,
         Faraday::Response::Json,
-        CatchError
+        Revolut::Middleware::CatchError
       ].each do |middleware|
         expect(subject.builder.handlers).to include(middleware)
       end
+    end
+
+    it "catches the error when console is true" do
+      stub_authentication
+      ENV["CONSOLE"] = "true"
+      stub_resource(:get, resource, status: 400, response: {body: {message: "Some error happened"}})
+      expect { client.get(resource) }.to raise_error(Faraday::BadRequestError, "Some error happened")
     end
   end
 

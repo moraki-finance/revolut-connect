@@ -96,4 +96,14 @@ RSpec.describe Revolut::Auth do
       end
     end
   end
+
+  describe "#authorize_base_uri" do
+    before do
+      Revolut.config.environment = :production
+    end
+
+    it "should return the production base uri" do
+      expect(Revolut::Auth.send(:authorize_base_uri)).to eq "https://business.revolut.com/app-confirm"
+    end
+  end
 end

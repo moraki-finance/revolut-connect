@@ -15,6 +15,7 @@ group :development, :test do
   gem "pry-stack_explorer", "~> 0.6.1"
   gem "dotenv"
   gem "standard", "~> 1.3"
+  gem "timecop"
 end
 
 group :test do
