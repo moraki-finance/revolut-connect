@@ -207,7 +207,7 @@ RSpec.describe Revolut::Client do
     end
 
     it "returns the response" do
-      expect(response.body).to eq token_exchange_response.to_json
+      expect(response.body).to eq_as_json token_exchange_response
     end
   end
 
@@ -219,7 +219,7 @@ RSpec.describe Revolut::Client do
     end
 
     it "returns the response" do
-      expect(response.body).to eq token_refresh_response.to_json
+      expect(response.body).to eq_as_json token_refresh_response
     end
   end
 end

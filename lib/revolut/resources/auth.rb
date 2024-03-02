@@ -2,6 +2,8 @@ require "jwt"
 
 module Revolut
   class Auth < Resource
+    shallow
+
     class NotAuthorizedError < StandardError
       def initialize
         super(
@@ -90,6 +92,15 @@ module Revolut
         expires_at && Time.now.to_i >= @expires_at
       end
 
+      # Checks if the user is authenticated.
+      #
+      # Returns:
+      # - true if the access token is present and not expired
+      # - false otherwise
+      def authenticated?
+        !@access_token.nil? && !expired?
+      end
+
       # Loads authentication information from environment variable REVOLUT_AUTH_JSON.
       #
       # If the access token is not already set and the environment variable REVOLUT_AUTH_JSON is present,
@@ -105,6 +116,14 @@ module Revolut
         return unless @access_token.nil? && env_json
 
         load(JSON.parse(env_json))
+      end
+
+      # Clears the authentication information.
+      def clear
+        @access_token = nil
+        @token_type = nil
+        @expires_at = nil
+        @refresh_token = nil
       end
 
       private

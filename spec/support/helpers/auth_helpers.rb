@@ -34,14 +34,13 @@ module AuthHelpers
           "code" => authorization_code,
           "grant_type" => "authorization_code"
         },
-        headers: {
-          "Accept" => "*/*",
-          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-          "Content-Type" => "application/x-www-form-urlencoded",
-          "User-Agent" => "Ruby"
-        }
+        headers: {"Content-Type" => "application/x-www-form-urlencoded"}
       )
-      .to_return(status: 200, body: token_exchange_response.to_json, headers: {})
+      .to_return(
+        status: 200,
+        body: token_exchange_response.to_json,
+        headers: {"Content-Type" => "application/json"}
+      )
   end
 
   def token_refresh_response
@@ -62,14 +61,13 @@ module AuthHelpers
           "refresh_token" => refresh_token,
           "grant_type" => "refresh_token"
         },
-        headers: {
-          "Accept" => "*/*",
-          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-          "Content-Type" => "application/x-www-form-urlencoded",
-          "User-Agent" => "Ruby"
-        }
+        headers: {"Content-Type" => "application/x-www-form-urlencoded"}
       )
-      .to_return(status: 200, body: token_refresh_response.to_json, headers: {})
+      .to_return(
+        status: 200,
+        body: token_refresh_response.to_json,
+        headers: {"Content-Type" => "application/json"}
+      )
   end
 
   def stub_authentication
