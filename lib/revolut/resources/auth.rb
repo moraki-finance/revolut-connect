@@ -23,7 +23,11 @@ module Revolut
       #
       # @return [String] The authorization URL.
       def authorize_url
-        "#{authorize_base_uri}?client_id=#{Revolut.config.client_id}&redirect_uri=#{Revolut.config.authorize_redirect_uri}&response_type=code#authorise"
+        URI::HTTPS.build(
+          host: authorize_uri_host,
+          path: "/app-confirm",
+          query: "client_id=#{Revolut.config.client_id}&redirect_uri=#{Revolut.config.authorize_redirect_uri}&response_type=code" + (Revolut.config.scope ? "&scope=#{Revolut.config.scope}" : "")
+        ).to_s + "#authorise"
       end
 
       # Exchanges the authorization code for an access token.
@@ -128,10 +132,8 @@ module Revolut
 
       private
 
-      def authorize_base_uri
-        Revolut.sandbox? ?
-          "https://sandbox-business.revolut.com/app-confirm" :
-          "https://business.revolut.com/app-confirm"
+      def authorize_uri_host
+        Revolut.sandbox? ? "sandbox-business.revolut.com" : "business.revolut.com"
       end
     end
   end

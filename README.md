@@ -1,12 +1,13 @@
 # Revolut Connect
 
-<a href="https://codecov.io/github/moraki-finance/revolut-connect" >
- <img src="https://codecov.io/github/moraki-finance/revolut-connect/graph/badge.svg?token=SKTT14JJGV"/>
-</a>
 
-[![Tests](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml)
+|  Tests |  Coverage  |
+|:-:|:-:|
+| [![Tests](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/moraki-finance/revolut-connect/actions/workflows/main.yml)  |  [![Codecov Coverage](https://codecov.io/github/moraki-finance/revolut-connect/graph/badge.svg?token=SKTT14JJGV)](https://codecov.io/github/moraki-finance/revolut-connect) |
 
-A lightweight API connector for Revolut. Revolut docs: <https://developer.revolut.com/>
+A lightweight API client for Revolut featuring authentication, permission scopes, token expiration and automatic renewal.
+
+Revolut docs: <https://developer.revolut.com/>
 
 _:warning: The extracted API objects don't do input parameters validations. It's a simple faraday wrapper that allows you to send as many inputs as you want. The Revolut API might fail when passing a wrong set of parameters._
 
@@ -130,6 +131,15 @@ Revolut.configure do |config|
   # Optional: JWT issuer domain. Typically your app domain.
   # Default: example.com
   config.iss = ENV["REVOLUT_ISS"]
+
+  # Optional: JWT token duration. After this duration, the token will be renewed (for security reasons, in case of token leakage)
+  # Default: 120 seconds (2 minutes).
+  config.token_duration = ENV["REVOLUT_TOKEN_DURATION"]
+
+  # Optional: Revolut authorization scope. You can restrict which features the app will have access to by passing different scopes.
+  # More info in https://developer.revolut.com/docs/business/business-api
+  # Default: nil
+  config.scope = ENV["REVOLUT_SCOPE"]
 
   # Optional: Timeout of the underlying faraday requests.
   # Default: 120

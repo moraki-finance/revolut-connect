@@ -60,7 +60,11 @@ RSpec.describe Revolut::Auth do
     context "when not authorized" do
       it "raises NotAuthorizedError" do
         described_class.load(JSON.parse(access_token_data.merge(access_token: nil).to_json))
-        expect { described_class.access_token }.to raise_error(Revolut::Auth::NotAuthorizedError)
+        expect { described_class.access_token }.to raise_error(
+          Revolut::Auth::NotAuthorizedError,
+          "You need to authorize your app to access the Revolut business account of the user\n" \
+            "Please visit #{Revolut::Auth.authorize_url} to get an authorization code that you can then use with the Revolut::Auth.retrieve method to get an access token."
+        )
       end
     end
 
@@ -97,13 +101,39 @@ RSpec.describe Revolut::Auth do
     end
   end
 
-  describe "#authorize_base_uri" do
+  describe "#authorize_url" do
     before do
-      Revolut.config.environment = :production
+      Revolut.config.environment = :sandbox
     end
 
-    it "should return the production base uri" do
-      expect(Revolut::Auth.send(:authorize_base_uri)).to eq "https://business.revolut.com/app-confirm"
+    it "builds the authorize url" do
+      expect(Revolut::Auth.authorize_url).to eq(
+        "https://sandbox-business.revolut.com/app-confirm?client_id=fake_client_id&redirect_uri=https://example.com&response_type=code#authorise"
+      )
+    end
+
+    context "when there's a scope defined" do
+      before do
+        Revolut.config.scope = "READ,WRITE"
+      end
+
+      it "adds the scope" do
+        expect(Revolut::Auth.authorize_url).to eq(
+          "https://sandbox-business.revolut.com/app-confirm?client_id=fake_client_id&redirect_uri=https://example.com&response_type=code&scope=READ,WRITE#authorise"
+        )
+      end
+
+      context "when the environment is production " do
+        before do
+          Revolut.config.environment = :production
+        end
+
+        it "use the production host" do
+          expect(Revolut::Auth.authorize_url).to eq(
+            "https://business.revolut.com/app-confirm?client_id=fake_client_id&redirect_uri=https://example.com&response_type=code&scope=READ,WRITE#authorise"
+          )
+        end
+      end
     end
   end
 end

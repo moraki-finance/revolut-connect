@@ -13,6 +13,8 @@ RSpec.describe Revolut::Client do
         base_uri: "https://sandbox-b2b.revolut.com/api/1.0/",
         environment: :sandbox,
         request_timeout: 120,
+        token_duration: 120,
+        scope: nil,
         global_headers: {}
       )
     end

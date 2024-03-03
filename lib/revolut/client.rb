@@ -6,6 +6,8 @@ module Revolut
       client_id
       signing_key
       iss
+      token_duration
+      scope
       authorize_redirect_uri
       base_uri
       environment

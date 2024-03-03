@@ -103,7 +103,7 @@ module Revolut
         iss:,
         sub: client_id,
         aud: "https://revolut.com",
-        exp: Time.now.to_i + 120 # Expires in 2 minutes
+        exp: Time.now.to_i + token_duration
       }
 
       header = {

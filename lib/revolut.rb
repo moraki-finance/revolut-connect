@@ -21,13 +21,14 @@ module Revolut
   class NotImplementedError < Error; end
 
   class Configuration
-    attr_accessor :request_timeout, :global_headers, :environment
+    attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope
     attr_writer :client_id, :signing_key, :iss, :authorize_redirect_uri
     attr_reader :base_uri
 
     DEFAULT_BASE_URI = "https://sandbox-b2b.revolut.com/api/1.0/"
     DEFAULT_ENVIRONMENT = "sandbox"
     DEFAULT_REQUEST_TIMEOUT = 120
+    DEFAULT_TOKEN_DURATION = 120 # 2 minutes
 
     def initialize
       @request_timeout = DEFAULT_REQUEST_TIMEOUT
@@ -36,6 +37,8 @@ module Revolut
       @signing_key = ENV["REVOLUT_SIGNING_KEY"]&.gsub("\\n", "\n")
       @iss = ENV.fetch("REVOLUT_ISS", "example.com")
       @authorize_redirect_uri = ENV["REVOLUT_AUTHORIZE_REDIRECT_URI"]
+      @token_duration = ENV.fetch("REVOLUT_TOKEN_DURATION", DEFAULT_TOKEN_DURATION)
+      @scope = ENV["REVOLUT_SCOPE"]
       @environment = ENV.fetch("REVOLUT_ENVIRONMENT", DEFAULT_ENVIRONMENT).to_sym
       @base_uri = (environment == :sandbox) ? "https://sandbox-b2b.revolut.com/api/1.0/" : "https://b2b.revolut.com/api/1.0/"
     end
