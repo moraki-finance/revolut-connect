@@ -10,6 +10,7 @@ RSpec.describe Revolut::Client do
         signing_key: "fake_signing_key",
         iss: "example.com",
         authorize_redirect_uri: "https://example.com",
+        api_version: "1.0",
         base_uri: "https://sandbox-b2b.revolut.com/api/1.0/",
         environment: :sandbox,
         request_timeout: 120,
@@ -229,6 +230,22 @@ RSpec.describe Revolut::Client do
 
     it "returns the response" do
       expect(response.body).to eq_as_json token_refresh_response
+    end
+  end
+
+  describe "base_ur" do
+    context "when the environment is sandbox" do
+      it "returns the sandbox base_uri" do
+        expect(client.base_uri).to eq "https://sandbox-b2b.revolut.com/api/1.0/"
+      end
+    end
+
+    context "when the environment is production" do
+      let(:client) { Revolut::Client.new(environment: :production) }
+
+      it "returns the production base_uri" do
+        expect(client.base_uri).to eq "https://b2b.revolut.com/api/1.0/"
+      end
     end
   end
 end

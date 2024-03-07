@@ -9,26 +9,27 @@ module Revolut
       token_duration
       scope
       authorize_redirect_uri
-      base_uri
+      api_version
       environment
       request_timeout
       global_headers
     ].freeze
 
-    attr_reader(*CONFIG_KEYS)
+    attr_reader(*CONFIG_KEYS, :base_uri)
 
-    def self.instance
-      @instance ||= new
-    end
-
-    private
-
-    def initialize
+    def initialize(**attrs)
       CONFIG_KEYS.each do |key|
         # Set instance variables like api_type & access_token. Fall back to global config
         # if not present.
-        instance_variable_set(:"@#{key}", Revolut.config.send(key))
+        instance_variable_set(:"@#{key}", attrs[key] || Revolut.config.send(key))
       end
+
+      @base_uri = environment == :sandbox ? "https://sandbox-b2b.revolut.com/api/#{api_version}/" : "https://b2b.revolut.com/api/#{api_version}/"
+    end
+
+    # Instance with all the defaults
+    def self.instance
+      @instance ||= new
     end
   end
 end

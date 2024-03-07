@@ -17,12 +17,13 @@ module Revolut
 
   class NotImplementedError < Error; end
 
-  class Configuration
-    attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope, :auth_json
-    attr_writer :client_id, :signing_key, :iss, :authorize_redirect_uri
-    attr_reader :base_uri
+  class SignatureVerificationError < Error; end
 
-    DEFAULT_BASE_URI = "https://sandbox-b2b.revolut.com/api/1.0/"
+  class Configuration
+    attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope, :auth_json, :api_version
+    attr_writer :client_id, :signing_key, :iss, :authorize_redirect_uri
+
+    DEFAULT_API_VERSION = "1.0"
     DEFAULT_ENVIRONMENT = "sandbox"
     DEFAULT_REQUEST_TIMEOUT = 120
     DEFAULT_TOKEN_DURATION = 120 # 2 minutes
@@ -37,8 +38,8 @@ module Revolut
       @token_duration = ENV.fetch("REVOLUT_TOKEN_DURATION", DEFAULT_TOKEN_DURATION)
       @auth_json = ENV["REVOLUT_AUTH_JSON"]
       @scope = ENV["REVOLUT_SCOPE"]
+      @api_version = ENV.fetch("REVOLUT_API_VERSION", DEFAULT_API_VERSION)
       @environment = ENV.fetch("REVOLUT_ENVIRONMENT", DEFAULT_ENVIRONMENT).to_sym
-      @base_uri = (environment == :sandbox) ? "https://sandbox-b2b.revolut.com/api/1.0/" : "https://b2b.revolut.com/api/1.0/"
     end
 
     def client_id
