@@ -2,7 +2,7 @@
 
 RSpec.describe Revolut do
   it "has a version number" do
-    expect(Revolut::VERSION).not_to be nil
+    expect(Revolut::VERSION).to eq "0.1.2"
   end
 
   it "allows to configure" do

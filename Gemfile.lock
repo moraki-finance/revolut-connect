@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    revolut-connect (0.1.1)
+    revolut-connect (0.1.2)
       faraday (>= 1)
       faraday-retry (>= 1)
       jwt (>= 1)
