@@ -168,7 +168,7 @@ If you're setting the `auth_json` config, rembember to call `Revolut::Auth.load_
 ```rb
 Revolute.configure do |config|
   ...
-  config.auth_json = ENV.fetch("REVOLUT_AUTH_JSON", Rails.application.credentials.dig(:revolut, :auth_json))
+  config.auth_json = ENV.fetch("REVOLUT_AUTH_JSON", nil)
 end
 
 # Load the `auth_json` value.
