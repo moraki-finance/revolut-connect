@@ -163,6 +163,18 @@ Revolut.configure do |config|
 end
 ```
 
+If you're setting the `auth_json` config, rembember to call `Revolut::Auth.load_from_env` right after the configuration is set so that the gem loads this JSON you just set:
+
+```rb
+Revolute.configure do |config|
+  ...
+  config.auth_json = ENV.fetch("REVOLUT_AUTH_JSON", Rails.application.credentials.dig(:revolut, :auth_json))
+end
+
+# Load the `auth_json` value.
+Revolut::Auth.load_from_env
+```
+
 ### Resources
 
 #### Accounts
