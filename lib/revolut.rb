@@ -10,9 +10,6 @@ require_relative "revolut/client"
 require_relative "revolut/resources/resource"
 Dir[File.join(__dir__, "revolut", "resources", "*.rb")].each { |file| require file }
 
-# Load the authentication information from the environment variable REVOLUT_AUTH_JSON right away if possible.
-Revolut::Auth.load_from_env
-
 module Revolut
   class Error < StandardError; end
 
@@ -21,7 +18,7 @@ module Revolut
   class NotImplementedError < Error; end
 
   class Configuration
-    attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope
+    attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope, :auth_json
     attr_writer :client_id, :signing_key, :iss, :authorize_redirect_uri
     attr_reader :base_uri
 
@@ -38,6 +35,7 @@ module Revolut
       @iss = ENV.fetch("REVOLUT_ISS", "example.com")
       @authorize_redirect_uri = ENV["REVOLUT_AUTHORIZE_REDIRECT_URI"]
       @token_duration = ENV.fetch("REVOLUT_TOKEN_DURATION", DEFAULT_TOKEN_DURATION)
+      @auth_json = ENV["REVOLUT_AUTH_JSON"]
       @scope = ENV["REVOLUT_SCOPE"]
       @environment = ENV.fetch("REVOLUT_ENVIRONMENT", DEFAULT_ENVIRONMENT).to_sym
       @base_uri = (environment == :sandbox) ? "https://sandbox-b2b.revolut.com/api/1.0/" : "https://b2b.revolut.com/api/1.0/"
@@ -80,3 +78,6 @@ module Revolut
     end
   end
 end
+
+# Load the authentication information from the environment variable REVOLUT_AUTH_JSON right away if possible.
+Revolut::Auth.load_from_env

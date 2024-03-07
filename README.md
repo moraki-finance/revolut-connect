@@ -156,6 +156,10 @@ Revolut.configure do |config|
   # Optional: Set the environment to be production or sandbox.
   # Default: sandbox
   config.environment = ENV["REVOLUT_ENVIRONMENT"]
+
+  # Optional: The JWT for an already exchanged token.
+  # Used to preload an existing auth token so that you don't have to exchange / renew it again.
+  config.auth_json = ENV["REVOLUT_AUTH_JSON"]
 end
 ```
 
@@ -228,6 +232,8 @@ deleted = Revolut::Payment.delete(transaction.id)
 ```
 
 ## Development
+
+You can use `bin/console` to access an interactive console. This will preload environment variables from a `.env` file.
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 

@@ -78,9 +78,9 @@ RSpec.describe Revolut::Auth do
   end
 
   describe ".load_from_env" do
-    context "when REVOLUT_AUTH_JSON is set" do
+    context "when config is set" do
       before do
-        allow(ENV).to receive(:[]).with("REVOLUT_AUTH_JSON").and_return(access_token_data.to_json)
+        Revolut.config.auth_json = access_token_data.to_json
       end
 
       it "loads auth data from env" do
@@ -90,9 +90,9 @@ RSpec.describe Revolut::Auth do
       end
     end
 
-    context "when REVOLUT_AUTH_JSON is not set" do
+    context "when config is not set" do
       before do
-        allow(ENV).to receive(:[]).with("REVOLUT_AUTH_JSON").and_return(nil)
+        Revolut.config.auth_json = nil
       end
 
       it "does nothing" do

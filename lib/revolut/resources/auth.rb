@@ -105,17 +105,17 @@ module Revolut
         !@access_token.nil? && !expired?
       end
 
-      # Loads authentication information from environment variable REVOLUT_AUTH_JSON.
+      # Loads authentication information from the configuration auth_json.
       #
-      # If the access token is not already set and the environment variable REVOLUT_AUTH_JSON is present,
-      # this method loads the JSON data from the environment variable and calls the load method to set the authentication information.
+      # If the access token is not already set and auth_json config is present,
+      # this method loads the JSON data from the config variable and calls the load method to set the authentication information.
       #
       # Example:
       #   auth.load_from_env
       #
       # @return [void]
       def load_from_env
-        env_json = ENV["REVOLUT_AUTH_JSON"]
+        env_json = Revolut.config.auth_json
 
         return unless @access_token.nil? && env_json
 
