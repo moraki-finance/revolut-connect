@@ -29,14 +29,14 @@ RSpec.describe Revolut::WebhookEvent do
 
         expect(subject).to have_attributes(
           event: "TransactionStateChanged",
-          timestamp: "2023-05-09T16:36:38.028960Z",
+          timestamp: "2023-05-09T16:36:38.028960Z"
         )
 
         expect(subject.data).to have_attributes(
           id: "645a7696-22f3-aa47-9c74-cbae0449cc46",
           new_state: "completed",
           old_state: "pending",
-          request_id: "app_charges-9f5d5eb3-1e06-46c5-b1c0-3914763e0bcb",
+          request_id: "app_charges-9f5d5eb3-1e06-46c5-b1c0-3914763e0bcb"
         )
       end
     end

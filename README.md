@@ -160,6 +160,10 @@ Revolut.configure do |config|
   # Optional: The JWT for an already exchanged token.
   # Used to preload an existing auth token so that you don't have to exchange / renew it again.
   config.auth_json = ENV["REVOLUT_AUTH_JSON"]
+
+  # Optional: The revolut api version used. Generally used to hit the webhooks API as it requires api_version 2.0.
+  # Default: "1.0".
+  config.api_version = ENV["REVOLUT_API_VERSION"]
 end
 ```
 

@@ -24,7 +24,7 @@ module Revolut
         instance_variable_set(:"@#{key}", attrs[key] || Revolut.config.send(key))
       end
 
-      @base_uri = environment == :sandbox ? "https://sandbox-b2b.revolut.com/api/#{api_version}/" : "https://b2b.revolut.com/api/#{api_version}/"
+      @base_uri = (environment == :sandbox) ? "https://sandbox-b2b.revolut.com/api/#{api_version}/" : "https://b2b.revolut.com/api/#{api_version}/"
     end
 
     # Instance with all the defaults

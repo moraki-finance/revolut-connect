@@ -17,7 +17,7 @@ module Revolut
       header_signature = request.headers["Revolut-Signature"]
       payload_to_sign = "v1.#{timestamp}.#{json}"
       digest = OpenSSL::Digest.new("sha256")
-      signature_digest = 'v1=' + OpenSSL::HMAC.hexdigest(digest, signing_secret, payload_to_sign)
+      signature_digest = "v1=" + OpenSSL::HMAC.hexdigest(digest, signing_secret, payload_to_sign)
 
       if signature_digest == header_signature
         new(JSON.parse(json))
