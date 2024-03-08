@@ -142,7 +142,7 @@ RSpec.describe Revolut::Resource do
     it "raises an exception when trying to execute a forbidden method" do
       expect {
         Revolut::Resource::NotAllowedToResource.update(1, name: "Test")
-      }.to raise_error(Revolut::Error, "`update` is not allowed on this resource")
+      }.to raise_error(Revolut::UnsupportedOperationError, "`update` operation is not allowed on this resource")
     end
 
     it "succeeds to execute an allowed method" do
@@ -171,7 +171,7 @@ RSpec.describe Revolut::Resource do
     it "raises an exception when trying to execute a forbidden method" do
       expect {
         Revolut::Resource::OnlyResource.retrieve(1)
-      }.to raise_error(Revolut::Error, "`retrieve` is not allowed on this resource")
+      }.to raise_error(Revolut::UnsupportedOperationError, "`retrieve` operation is not allowed on this resource")
     end
 
     it "succeeds to execute an allowed method" do
@@ -200,7 +200,7 @@ RSpec.describe Revolut::Resource do
     it "raises an exception when trying to execute a forbidden method" do
       expect {
         Revolut::Resource::ShallowResource.retrieve(1)
-      }.to raise_error(Revolut::Error, "`retrieve` is not allowed on this resource")
+      }.to raise_error(Revolut::UnsupportedOperationError, "`retrieve` operation is not allowed on this resource")
     end
   end
 

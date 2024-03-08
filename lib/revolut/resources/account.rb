@@ -7,6 +7,10 @@ module Revolut
       "accounts"
     end
 
+    # Retrieves the bank details for a specific account.
+    #
+    # @param id [String] The ID of the account.
+    # @return [Array<Revolut::BankAccount>] An array of bank account objects.
     def self.bank_details(id)
       response = http_client.get("/#{resources_name}/#{id}/bank-details")
 

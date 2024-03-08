@@ -23,6 +23,7 @@ _:warning: For now this connector only supports the [Business API](https://devel
 - `Transaction`
 - `TransferReason`
 - `Webhook`
+- `Simulation`
 
 ## :construction: Roadmap
 
@@ -32,7 +33,6 @@ _:warning: For now this connector only supports the [Business API](https://devel
 - `ForeignExchange` resource
 - `PaymentDraft` resource
 - `PayoutLink` resource
-- `Simulation` resource
 - `TeamMember` resource
 - `Transfer` resource
 
@@ -245,6 +245,23 @@ transaction = Revolut::Payment.retrieve(payment.id)
 
 # Delete a payment transaction
 deleted = Revolut::Payment.delete(transaction.id)
+```
+
+#### Simulations
+
+<https://developer.revolut.com/docs/business/simulations>
+
+```rb
+# Update a transaction
+transaction = Revolut::Simulation.update_transaction("a6ea39d7-62c9-481c-8ba6-8a887a44c486", action: :complete)
+
+# Top up an account
+transaction = Revolut::Simulation.top_up_account("e042f1fe-f721-49cc-af82-db7a6c46944f",
+  amount: 100,
+  currency: "GBP",
+  reference: "Test Top-up",
+  state: "completed"
+)
 ```
 
 #### Webhooks

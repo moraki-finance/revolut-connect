@@ -57,11 +57,11 @@ module Revolut
         @coerce_with ||= attrs
       end
 
-      protected
-
       def http_client
         @http_client ||= Revolut::Client.instance
       end
+
+      protected
 
       def resource_name
         resources_name
@@ -88,15 +88,9 @@ module Revolut
 
       def check_not_allowed
         method = caller(1..1).first.match(/`(\w+)'/)[1].to_sym
-        raise Revolut::Error, "`#{method}` is not allowed on this resource" if not_allowed_to.include?(method) || only.any? && !only.include?(method)
+        raise Revolut::UnsupportedOperationError, "`#{method}` operation is not allowed on this resource" if not_allowed_to.include?(method) || only.any? && !only.include?(method)
       end
     end
-
-    def to_json
-      @_raw.to_json
-    end
-
-    protected
 
     def initialize(attrs = {})
       @_raw = attrs
@@ -120,6 +114,10 @@ module Revolut
       end
 
       instance_variables.each { |iv| self.class.send(:attr_accessor, iv.to_s[1..].to_sym) }
+    end
+
+    def to_json
+      @_raw.to_json
     end
   end
 end

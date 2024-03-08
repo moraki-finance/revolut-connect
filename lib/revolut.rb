@@ -19,6 +19,8 @@ module Revolut
 
   class SignatureVerificationError < Error; end
 
+  class UnsupportedOperationError < Error; end
+
   class Configuration
     attr_accessor :request_timeout, :global_headers, :environment, :token_duration, :scope, :auth_json, :api_version
     attr_writer :client_id, :signing_key, :iss, :authorize_redirect_uri

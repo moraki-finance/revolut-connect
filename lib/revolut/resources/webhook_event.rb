@@ -14,12 +14,12 @@ module Revolut
     def self.construct_from(request, signing_secret)
       json = request.body.read
       timestamp = request.headers["Revolut-Request-Timestamp"]
-      header_signature = request.headers["Revolut-Signature"]
+      header_signatures = request.headers["Revolut-Signature"].split(",")
       payload_to_sign = "v1.#{timestamp}.#{json}"
       digest = OpenSSL::Digest.new("sha256")
       signature_digest = "v1=" + OpenSSL::HMAC.hexdigest(digest, signing_secret, payload_to_sign)
 
-      if signature_digest == header_signature
+      if header_signatures.include? signature_digest
         new(JSON.parse(json))
       else
         raise Revolut::SignatureVerificationError, "Signature verification failed"

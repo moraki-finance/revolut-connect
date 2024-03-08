@@ -18,7 +18,7 @@ RSpec.describe Revolut::WebhookEvent do
           body: StringIO.new('{"data":{"id":"645a7696-22f3-aa47-9c74-cbae0449cc46","new_state":"completed","old_state":"pending","request_id":"app_charges-9f5d5eb3-1e06-46c5-b1c0-3914763e0bcb"},"event":"TransactionStateChanged","timestamp":"2023-05-09T16:36:38.028960Z"}'),
           headers: {
             "Revolut-Request-Timestamp" => "1683650202360",
-            "Revolut-Signature" => "v1=bca326fb378d0da7f7c490ad584a8106bab9723d8d9cdd0d50b4c5b3be3837c0"
+            "Revolut-Signature" => "v1=bca326fb378d0da7f7c490ad584a8106bab9723d8d9cdd0d50b4c5b3be3837c0,v1=bca326fb378d0da7f7c490ad584a8106bab9723d8d9cdd0d50b4c5b3be3837c1"
           }
         )
       end
