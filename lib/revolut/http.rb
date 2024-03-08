@@ -73,8 +73,8 @@ module Revolut
         # Request middlewares
         f.request content_type
         f.request :retry, { # Retries a request after refreshing the token if we get an UnauthorizedError
-          max: 1,
           exceptions: [Faraday::UnauthorizedError],
+          methods: Faraday::Retry::Middleware::IDEMPOTENT_METHODS + %i[post patch],
           retry_block: ->(env:, options:, retry_count:, exception:, will_retry_in:) {
             Revolut::Auth.refresh(force: true)
             env.request_headers = env.request_headers.merge("Authorization" => "Bearer #{Revolut::Auth.access_token}")

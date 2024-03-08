@@ -48,8 +48,9 @@ RSpec.describe Revolut::Client do
       allow(Revolut::Auth).to receive(:refresh).with(force: true)
       allow(Revolut::Auth).to receive(:access_token).and_return("fake_access_token")
       expect(options).to match(
-        max: 1,
         exceptions: [Faraday::UnauthorizedError],
+        # We're only retrying on Faraday::UnauthorizedError, so we should be good about retrying non idempotent methods like post and patch.
+        methods: Faraday::Retry::Middleware::IDEMPOTENT_METHODS + %i[post patch],
         retry_block: anything # We're going to test this separately
       )
       options[:retry_block].call(env:, options: {}, retry_count: 0, exception: Faraday::UnauthorizedError.new, will_retry_in: 0)
