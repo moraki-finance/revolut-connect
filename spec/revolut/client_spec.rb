@@ -234,7 +234,7 @@ RSpec.describe Revolut::Client do
     end
   end
 
-  describe "base_ur" do
+  describe "base_uri" do
     context "when the environment is sandbox" do
       it "returns the sandbox base_uri" do
         expect(client.base_uri).to eq "https://sandbox-b2b.revolut.com/api/1.0/"
