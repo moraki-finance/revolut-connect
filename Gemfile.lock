@@ -25,7 +25,7 @@ GEM
     diff-lcs (1.5.1)
     docile (1.4.0)
     dotenv (3.1.0)
-    faraday (2.9.0)
+    faraday (2.9.1)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
@@ -124,6 +124,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-23
+  x86_64-linux
 
 DEPENDENCIES
   byebug (~> 11.1)
