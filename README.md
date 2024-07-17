@@ -101,7 +101,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
     And then, when you need to load the auth again:
 
     ```rb
-    Revolut::Auth.load(auth_to_persist)
+    Revolut::Auth.load(JSON.prase(auth_to_persist))
     ```
 
     You can also store this json in an environment variable and the gem will auto load it:
