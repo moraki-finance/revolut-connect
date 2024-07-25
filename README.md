@@ -19,6 +19,7 @@ _:warning: For now this connector only supports the [Business API](https://devel
 
 - `Account`
 - `Counterparty`
+- `ForeignExchange`
 - `Payment`
 - `Transaction`
 - `TransferReason`
@@ -30,7 +31,6 @@ _:warning: For now this connector only supports the [Business API](https://devel
 ### Business API
 
 - `Card` resource
-- `ForeignExchange` resource
 - `PaymentDraft` resource
 - `PayoutLink` resource
 - `TeamMember` resource
@@ -101,7 +101,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
     And then, when you need to load the auth again:
 
     ```rb
-    Revolut::Auth.load(JSON.prase(auth_to_persist))
+    Revolut::Auth.load(JSON.parse(auth_to_persist))
     ```
 
     You can also store this json in an environment variable and the gem will auto load it:
@@ -149,8 +149,8 @@ Revolut.configure do |config|
   # Useful for observability tools like Helicone: https://www.helicone.ai/
   # Default: {}
   config.global_headers = {
-    "Helicone-Auth": "Bearer {HELICONE_API_KEY}"
-    "helicone-stream-force-format" => "true",
+    "Helicone-Auth": "Bearer {HELICONE_API_KEY}",
+    "helicone-stream-force-format" => "true"
   }
 
   # Optional: Set the environment to be production or sandbox.
@@ -216,6 +216,35 @@ retrieved_counterparty = Revolut::Counterparty.retrieve(created_counterparty.id)
 
 # Delete a counterparty
 deleted = Revolut::Counterparty.delete(retrieved_counterparty.id)
+```
+
+#### ForeignExchange
+
+<https://developer.revolut.com/docs/business/foreign-exchange>
+
+```rb
+# Exchange currencies
+exchange = Revolut::ForeignExchange.exchange(
+  request_id: "49c6a48b-6b58-40a0-b974-0b8c4888c8a9", # The ID of the request, provided by you. It helps you identify the transaction in your system.
+  from: {
+    account_id: "8fe12333-5b27-4ad5-896c-38a25673fcc8",
+    currency: "USD"
+  },
+  to: {
+    account_id: "b4a3bcd2-c1dd-47cc-ac50-40cdb5856d42",
+    currency: "GBP",
+    amount: 10
+  },
+ reference: "exchange"
+)
+
+
+# Retrieve information on exchange rates between currencies
+rate = Revolut::ForeignExchange.rate(
+  from: "EUR",
+  to: "USD",
+  amount: 100
+)
 ```
 
 #### Payments
