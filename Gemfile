@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in revolut-connect.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
+gem "rake", "~> 13.2"
 
 group :development, :test do
   gem "byebug", "~> 11.1"
