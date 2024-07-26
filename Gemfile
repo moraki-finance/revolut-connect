@@ -5,7 +5,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in revolut-connect.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
+gem "rake", "~> 13.2"
 
 group :development, :test do
   gem "byebug", "~> 11.1"
@@ -14,13 +14,13 @@ group :development, :test do
   gem "pry-rescue", "~> 1.5"
   gem "pry-stack_explorer", "~> 0.6.1"
   gem "dotenv"
-  gem "standard", "~> 1.3"
+  gem "standard", "~> 1.36"
   gem "timecop"
 end
 
 group :test do
   gem "rspec", "~> 3.0"
-  gem "webmock", "~> 3.23.0"
+  gem "webmock", "~> 3.23.1"
   gem "simplecov"
   gem "simplecov-cobertura"
 end
