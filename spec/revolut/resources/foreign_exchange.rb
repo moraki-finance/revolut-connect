@@ -33,7 +33,7 @@ RSpec.describe Revolut::ForeignExchange do
         currency: "GBP",
         amount: 10
       },
-     reference: "exchange"
+      reference: "exchange"
     }
 
     allow(described_class.http_client)
