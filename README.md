@@ -293,6 +293,25 @@ transaction = Revolut::Simulation.top_up_account("e042f1fe-f721-49cc-af82-db7a6c
 )
 ```
 
+#### Transfers
+
+<https://developer.revolut.com/docs/business/transfers>
+
+```rb
+# Create a transfer
+Revolut::Transfer.create(
+  request_id: "129999", # The ID of the request, provided by you. It helps you identify the transaction in your system.
+  source_account_id: "b4a3bcd2-c1dd-47cc-ac50-40cdb5856d42",
+  target_account_id: "4cfb3825-7448-4825-baf8-7a17137c4634",
+  amount: 10,
+  currency: "GBP",
+  reference: "John's transfer"
+)
+
+# List transfer reasons
+transfer_reasons = Revolut::Transfer.list_reasons
+```
+
 #### Webhooks
 
 <https://developer.revolut.com/docs/business/webhooks-v-2>
