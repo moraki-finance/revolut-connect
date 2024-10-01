@@ -32,7 +32,7 @@ GEM
       net-http
     faraday-retry (2.2.1)
       faraday (~> 2.0)
-    hashdiff (1.1.0)
+    hashdiff (1.1.1)
     interception (0.5)
     json (2.7.2)
     jwt (2.8.2)
@@ -64,8 +64,7 @@ GEM
     rainbow (3.1.1)
     rake (13.2.1)
     regexp_parser (2.9.2)
-    rexml (3.3.2)
-      strscan
+    rexml (3.3.8)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -117,11 +116,10 @@ GEM
     standard-performance (1.4.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.21.0)
-    strscan (3.1.0)
     timecop (0.9.10)
     unicode-display_width (2.5.0)
     uri (0.13.0)
-    webmock (3.23.1)
+    webmock (3.24.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -144,7 +142,7 @@ DEPENDENCIES
   simplecov-cobertura
   standard (~> 1.36)
   timecop
-  webmock (~> 3.23.1)
+  webmock (~> 3.24.0)
 
 BUNDLED WITH
    2.4.22
